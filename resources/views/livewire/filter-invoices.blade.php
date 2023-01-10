@@ -1,22 +1,21 @@
 <div>
-    {{-- @dump($invoices); --}}
 
-    @dump($filters)
+{{-- @dump($filters) --}}
 
 {{-- <div class="relative overflow-x-auto shadow-lg sm:rounded-lg"> --}}
-<div class="bg-white rounded p-8 shadow-sm mb-3">
+<div class="p-8 mb-3 bg-white rounded shadow-sm">
     <h1 class="text-2xl font-semibold">Generar Reportes</h1>
 
     <div class="mb-4">
         Serie:
-        <select wire:model="filters.serie" name="serie" id="serie" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm w-32">
+        <select wire:model="filters.serie" name="serie" id="serie" class="w-32 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             <option value="">Todas</option>
             <option value="F001">F001</option>
             <option value="B001">B001</option>
         </select>
     </div>
 
-    <div class="flex space-x-4 mb-4">
+    <div class="flex mb-4 space-x-4">
         <div>
             Desde el N°:
             <x-jet-input wire:model="filters.fromNumber" type="text" class="w-32"></x-jet-input>
@@ -28,7 +27,7 @@
         </div>
     </div>
 
-    <div class="flex space-x-4 mb-4">
+    <div class="flex mb-4 space-x-4">
         <div>
             Desde Fecha:
             <x-jet-input wire:model="filters.fromDate" type="date" class="w-32"></x-jet-input>
@@ -40,7 +39,7 @@
         </div>
     </div>
 
-    <x-jet-button>
+    <x-jet-button wire:click="generateReport">
         Generar Reporte
     </x-jet-button>
 

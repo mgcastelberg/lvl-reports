@@ -5,6 +5,8 @@ namespace App\Http\Livewire;
 use App\Models\Invoice;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\invoice\InvoiceExport;
 
 class FilterInvoices extends Component
 {
@@ -17,6 +19,10 @@ class FilterInvoices extends Component
         'fromDate' => "",
         'toDate' => ""
     ];
+
+    public function generateReport(){
+        return Excel::download(new InvoiceExport(),'invoices.xlsx');
+    }
 
     public function render()
     {
