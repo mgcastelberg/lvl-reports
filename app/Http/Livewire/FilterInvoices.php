@@ -7,10 +7,12 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\invoice\InvoiceExport;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class FilterInvoices extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     public $filters = [
         'serie' => "",

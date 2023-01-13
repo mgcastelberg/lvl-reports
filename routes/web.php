@@ -28,5 +28,5 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::get('/invoice/export',[InvoiceController::class, 'export'])->name('invoices.export');
-Route::get('/invoice/import',[InvoiceController::class, 'import'])->name('invoices.import');
+Route::get('/invoice/export',[InvoiceController::class, 'export'])->name('invoices.export')->middleware('auth');
+Route::get('/invoice/import',[InvoiceController::class, 'import'])->name('invoices.import')->middleware('auth');
