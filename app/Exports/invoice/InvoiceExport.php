@@ -12,8 +12,12 @@ use Illuminate\Contracts\Support\Responsable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize; // ancho de columnas de forma automatizada
+// use Maatwebsite\Excel\Concerns\WithColumnWidths; //Para definir de forma personalizada el ancho de las columnas
 
-class InvoiceExport implements FromCollection, WithCustomStartCell, Responsable, WithMapping, WithColumnFormatting
+
+class InvoiceExport implements FromCollection, WithCustomStartCell, Responsable, WithMapping, WithColumnFormatting, WithHeadings, ShouldAutoSize
 {
     use Exportable;
     // private $filename = 'invoices.csv';
@@ -62,4 +66,30 @@ class InvoiceExport implements FromCollection, WithCustomStartCell, Responsable,
             'G' => 'dd/mm/yyyy'
         ];
     }
+
+    public function headings(): array
+    {
+        return [
+            'Serie',
+            'Correlativo',
+            'Base',
+            'Impuesto',
+            'Total',
+            'Usuario',
+            'Fecha'
+        ];
+    }
+
+    // public function columnWidths(): array
+    // {
+    //     return [
+    //         'A' => 10,
+    //         'B' => 10,
+    //         'C' => 10,
+    //         'D' => 10,
+    //         'E' => 10,
+    //         'F' => 30,
+    //         'G' => 15
+    //     ];
+    // }
 }
