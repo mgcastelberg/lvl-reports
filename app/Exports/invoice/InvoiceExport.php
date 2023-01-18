@@ -8,16 +8,20 @@ use Maatwebsite\Excel\Excel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\withDrawings;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use Illuminate\Contracts\Support\Responsable;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithCustomStartCell;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithCustomStartCell; // ancho de columnas de forma automatizada
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize; // ancho de columnas de forma automatizada
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 // use Maatwebsite\Excel\Concerns\WithColumnWidths; //Para definir de forma personalizada el ancho de las columnas
 
 
-class InvoiceExport implements FromCollection, WithCustomStartCell, Responsable, WithMapping, WithColumnFormatting, WithHeadings, ShouldAutoSize
+class InvoiceExport implements FromCollection, WithCustomStartCell, Responsable, WithMapping, WithColumnFormatting, WithHeadings, ShouldAutoSize, withDrawings, WithStyles
 {
     use Exportable;
     // private $filename = 'invoices.csv';
@@ -40,7 +44,7 @@ class InvoiceExport implements FromCollection, WithCustomStartCell, Responsable,
     }
 
     public function startCell(): string{
-        return 'A7';
+        return 'A8';
     }
 
     public function map($invoice): array
@@ -78,6 +82,55 @@ class InvoiceExport implements FromCollection, WithCustomStartCell, Responsable,
             'Usuario',
             'Fecha'
         ];
+    }
+
+    public function drawings(){
+        $drawing = new Drawing();
+        $drawing->setName('Xtreme Technology');
+        $drawing->setDescription('Logo');
+        $drawing->setPath(public_path('img/extreme_logo.png'));
+        $drawing->setHeight(90);
+        $drawing->setCoordinates('B2');
+        return $drawing;
+    }
+
+    public function styles(Worksheet $sheet){
+        $sheet->setTitle('Invoices');
+        $sheet->mergeCells('B7:F7');
+        $sheet->setCellValue('B7','Invoices Xtreme Technologies');
+        $sheet->setCellValue('F6','=5+4');
+
+        $sheet->getStyle('A7:G7')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'name' => 'Arial',
+                'size' => 16
+            ]
+        ]);
+
+        $sheet->getStyle('A8:G8')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'name' => 'Arial',
+            ],
+            'fill' => [
+                'fillType' => 'solid',
+                'startColor' => [
+                    'argb' => 'C5D9F1'
+                ]
+            ]
+        ]);
+        // Aplicar stilos para otro conjunto de celdas
+        $sheet->getStyle('A8:G'.$sheet->getHighestRow())->applyFromArray([
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => 'thin',
+                    'color' => [
+                        'argb' => '7f8c8d'
+                    ]
+                ]
+            ]
+        ]);
     }
 
     // public function columnWidths(): array
