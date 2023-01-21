@@ -30,3 +30,6 @@ Route::middleware([
 
 Route::get('/invoice/export',[InvoiceController::class, 'export'])->name('invoices.export')->middleware('auth');
 Route::get('/invoice/import',[InvoiceController::class, 'import'])->name('invoices.import')->middleware('auth');
+Route::post('/invoice/import',[InvoiceController::class, 'importStore'])->name('invoices.importStore')->middleware('auth');
+
+Route::get('/invoice/prueba',[InvoiceController::class, 'importCsv'])->name('invoices.importcsv')->middleware('auth');

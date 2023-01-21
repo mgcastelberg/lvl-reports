@@ -9,7 +9,7 @@ class Invoice extends Model
 {
     use HasFactory;
 
-    protected $filable = ['serie','correlative','base','tax','total','user_id'];
+    protected $fillable = ['serie','correlative','base','tax','total','user_id','created_at'];
 
     /** QueryScopes */
     public function scopeFilters($query, $filters){
